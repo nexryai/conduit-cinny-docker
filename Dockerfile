@@ -49,7 +49,7 @@ RUN apk add --no-cache ca-certificates \
  && chown -R app:app /app
 
 WORKDIR /app
-USER appex
+USER app
 
 COPY multirun.json /app/
 COPY Caddyfile /etc/
