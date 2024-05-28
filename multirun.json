@@ -1,0 +1,12 @@
+{
+    "services": {
+        "caddy": {
+            "directory": "/app/caddy",
+            "command": "caddy run --environ --config /etc/Caddyfile"
+        },
+        "conduit": {
+            "directory": "/app",
+            "command": "conduit"
+        }
+    }
+}
