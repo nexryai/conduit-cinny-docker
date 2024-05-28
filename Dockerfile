@@ -30,6 +30,7 @@ WORKDIR /src
 ENV NODE_OPTIONS=--max_old_space_size=4096
 RUN apk add --no-cache git
 RUN git clone https://github.com/cinnyapp/cinny/ . && git checkout v3.2.0
+RUN npm ci
 RUN npm run build
 
 # Runtime
