@@ -44,8 +44,8 @@ COPY --from=conduit-builder /src/target/release/conduit /usr/local/bin/conduit
 COPY --from=client-builder /src/dist /var/cinny
 
 RUN apk add --no-cache ca-certificates \
- && addgroup -g "${GID}" app \
- && adduser -u "${UID}" -G app -D -h /app app \
+ && addgroup -g "${GROUP_ID}" app \
+ && adduser -u "${USER_ID}" -G app -D -h /app app \
  && mkdir /app/caddy /app/data \
  && chown -R app:app /app
 
