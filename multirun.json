@@ -6,7 +6,10 @@
         },
         "conduit": {
             "directory": "/app",
-            "command": "conduit"
+            "command": "conduit",
+            "environment": {
+                "CONDUIT_CONFIG": "/app/conduit.toml"
+            }
         }
     }
 }

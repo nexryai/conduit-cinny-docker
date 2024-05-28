@@ -3,7 +3,7 @@ FROM rust:1-alpine as multirun-builder
 WORKDIR /src
 
 RUN apk add --no-cache git alpine-sdk
-RUN git clone https://github.com/nicoburns/multirun/ . && git switch v0.3.1
+RUN git clone https://github.com/nicoburns/multirun/ . && git checkout v0.3.1
 RUN cargo build --release
 
 # Build Caddy
@@ -11,7 +11,7 @@ FROM golang:1-alpine as caddy-builder
 WORKDIR /src
 
 RUN apk add --no-cache git
-RUN git clone https://github.com/caddyserver/caddy && git switch v2.7.6
+RUN git clone https://github.com/caddyserver/caddy . && git checkout v2.7.6
 RUN cd cmd/caddy && go build
 
 # Build Conduit
@@ -29,7 +29,7 @@ WORKDIR /src
 
 ENV NODE_OPTIONS=--max_old_space_size=4096
 RUN apk add --no-cache git
-RUN git clone https://github.com/cinnyapp/cinny/ . && git switch v3.2.0
+RUN git clone https://github.com/cinnyapp/cinny/ . && git checkout v3.2.0
 RUN npm run build
 
 # Runtime
