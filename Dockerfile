@@ -45,7 +45,8 @@ COPY --from=client-builder /src/dist /var/cinny
 RUN apk add --no-cache ca-certificates \
  && addgroup -g "${GID}" app \
  && adduser -u "${UID}" -G app -D -h /app app \
- && mkdir /app/caddy /app/data
+ && mkdir /app/caddy /app/data \
+ && chown -R app:app /app
 
 WORKDIR /app
 USER appex
