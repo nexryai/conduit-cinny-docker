@@ -8,7 +8,10 @@
             "directory": "/app",
             "command": "conduit",
             "environment": {
-                "CONDUIT_CONFIG": "/app/conduit.toml"
+                "CONDUIT_CONFIG": "",
+                "CONDUIT_DATABASE_PATH": "/app/data",
+                "CONDUIT_ADDRESS": "127.0.0.1",
+                "CONDUIT_PORT": "6167"
             }
         }
     }
