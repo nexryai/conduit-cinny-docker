@@ -15,13 +15,15 @@ RUN git clone https://github.com/caddyserver/caddy . && git checkout v2.7.6
 RUN cd cmd/caddy && go build
 
 # Build Conduit
-FROM rust:1-alpine as conduit-builder
+FROM nixos/nix:2.22.0 as conduit-builder
 WORKDIR /src
 
-ENV RUSTFLAGS="-C target-feature=-crt-static"
-RUN apk add --no-cache git alpine-sdk clang-dev linux-headers
 RUN git clone https://gitlab.com/famedly/conduit . && git switch master
-RUN cargo build --release
+RUN echo "experimental-features = nix-command flakes" >> /etc/nix/nix.conf
+RUN ./bin/nix-build-and-cache .#devShells.x86_64-linux.default.inputDerivation
+RUN nix-env -iA nixpkgs.direnv nixpkgs.nix-direnv && direnv allow && direnv exec . engage
+
+RUN ./bin/nix-build-and-cache .#static-$(uname -m)-unknown-linux-musl --extra-experimental-features nix-command --extra-experimental-features flakes
 
 # Build Cinny
 FROM node:20.12.2-alpine3.18 as client-builder
@@ -40,7 +42,7 @@ ARG GROUP_ID=587
 
 COPY --from=multirun-builder /src/target/release/multirun /usr/local/bin/multirun
 COPY --from=caddy-builder /src/cmd/caddy/caddy /usr/local/bin/caddy
-COPY --from=conduit-builder /src/target/release/conduit /usr/local/bin/conduit
+COPY --from=conduit-builder /src/result/bin/conduit /usr/local/bin/conduit
 COPY --from=client-builder /src/dist /var/cinny
 
 RUN apk add --no-cache ca-certificates \
