@@ -20,8 +20,10 @@ WORKDIR /src
 
 RUN git clone https://gitlab.com/famedly/conduit . && git switch master
 RUN echo "experimental-features = nix-command flakes" >> /etc/nix/nix.conf
-RUN ./bin/nix-build-and-cache .#devShells.x86_64-linux.default.inputDerivation
-RUN nix-env -iA nixpkgs.direnv nixpkgs.nix-direnv && direnv allow && direnv exec . engage
+RUN echo "extra-substituters = https://crane.cachix.org" >> /etc/nix/nix.conf
+RUN echo "extra-trusted-public-keys = crane.cachix.org-1:8Scfpmn9w+hGdXH/Q9tTLiYAE/2dnJYRJP7kl80GuRk=" >> /etc/nix/nix.conf
+RUN echo "extra-substituters = https://nix-community.cachix.org" >> /etc/nix/nix.conf
+RUN echo "extra-trusted-public-keys = nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs=" >> /etc/nix/nix.conf
 
 RUN ./bin/nix-build-and-cache .#static-$(uname -m)-unknown-linux-musl --extra-experimental-features nix-command --extra-experimental-features flakes
 
