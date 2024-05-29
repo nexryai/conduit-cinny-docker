@@ -4,7 +4,9 @@
     respond /.well-known/matrix/server `{"m.server": "{$CONDUIT_SERVER_NAME}:443"}`
 
     handle_path /_matrix/* {
-        reverse_proxy  127.0.0.1:6167
+        reverse_proxy  127.0.0.1:6167 {
+            trusted_proxies {$TRUSTED_PROXIES}
+        }
     }
     
     handle {
