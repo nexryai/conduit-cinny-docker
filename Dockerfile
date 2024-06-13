@@ -12,6 +12,8 @@ WORKDIR /src
 
 RUN apk add --no-cache git
 RUN git clone https://github.com/caddyserver/caddy . && git checkout v2.7.6
+
+ENV GOFLAGS="-buildmode=pie -trimpath -ldflags=-linkmode=external -mod=readonly -modcacherw"
 RUN cd cmd/caddy && go build
 
 # Build Conduit
