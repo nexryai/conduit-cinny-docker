@@ -11,7 +11,7 @@ FROM golang:1-alpine as caddy-builder
 WORKDIR /src
 
 RUN apk add --no-cache git
-RUN git clone https://github.com/caddyserver/caddy . && git checkout v2.7.6
+RUN git clone https://github.com/caddyserver/caddy . && git checkout v2.8.4
 
 ENV GOFLAGS="-buildmode=pie -trimpath -mod=readonly"
 RUN cd cmd/caddy && go build
@@ -35,7 +35,7 @@ WORKDIR /src
 
 ENV NODE_OPTIONS=--max_old_space_size=4096
 RUN apk add --no-cache git
-RUN git clone https://github.com/cinnyapp/cinny/ . && git checkout v3.2.0
+RUN git clone https://github.com/cinnyapp/cinny/ . && git checkout v4.0.3
 RUN npm ci
 RUN npm run build
 
