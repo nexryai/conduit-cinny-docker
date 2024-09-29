@@ -17,7 +17,7 @@ ENV GOFLAGS="-buildmode=pie -trimpath -mod=readonly"
 RUN cd cmd/caddy && go build
 
 # Build Conduit
-FROM nixos/nix:2.22.0 as conduit-builder
+FROM nixos/nix:latest as conduit-builder
 WORKDIR /src
 
 RUN git clone https://gitlab.com/famedly/conduit . && git switch master
@@ -35,7 +35,7 @@ WORKDIR /src
 
 ENV NODE_OPTIONS=--max_old_space_size=4096
 RUN apk add --no-cache git
-RUN git clone https://github.com/cinnyapp/cinny/ . && git checkout v4.0.3
+RUN git clone https://github.com/cinnyapp/cinny/ . && git checkout v4.2.1
 RUN npm ci
 RUN npm run build
 
